@@ -17,9 +17,9 @@ def tableContent(row, maxColLengths, centered):
     for index, cell in enumerate(row):
         tableRow += "│ "
         if centered:
-            padding = ((maxColLengths[index]-len(stringify(cell))+1)/2)
+            padding = ((maxColLengths[index]-len(stringify(cell)))/2)
             leftPadding = int(padding)
-            rightPadding = leftPadding if padding == leftPadding else leftPadding + 1
+            rightPadding = leftPadding + 1 if padding == float(leftPadding) else leftPadding + 2
 
             tableRow += " "*leftPadding
             tableRow += stringify(cell)
@@ -75,4 +75,5 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     # Bottom of table
     table += formatTableDivider("└","┴","┘",maxColLengths)
 
+    print(table)
     return table

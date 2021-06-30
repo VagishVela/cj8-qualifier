@@ -24,21 +24,25 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     table = ""
 
     # Top of table
-    tableHead = "-"
-    for maxColLength in maxColLengths:
-        tableHead += "-"*(maxColLength+2)
+    tableHead = "┌"
+    for index, maxColLength in enumerate(maxColLengths):
+        tableHead += "─"*(maxColLength+2)
+        if index < len(maxColLengths)-1:
+            tableHead += "┬"
 
-    table += tableHead + "-\n"
+    table += tableHead + "┐\n"
 
     # Main area of table
     for row in rows:
         tableRow = ""
         for index, cell in enumerate(row):
-            tableRow += "| "
+            tableRow += "│ "
             tableRow += str(cell)
             tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
-        tableRow += "|\n"
+        tableRow += "│\n"
         table += tableRow
     print(table)
+
+
 
 make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]])

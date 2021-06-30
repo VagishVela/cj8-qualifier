@@ -29,6 +29,13 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
             colLengths[i].append(row[i])
     maxColLengths = [max(length) for length in colLengths]
 
+    if labels is not None:
+        for index, maxColLength in enumerate(maxColLengths):
+            labelLen = str(labels[index])
+            if len(labelLen) > maxColLength:
+                maxColLengths[index] = len(labelLen)
+
+    # Setup table
     table = ""
 
     # Top of table

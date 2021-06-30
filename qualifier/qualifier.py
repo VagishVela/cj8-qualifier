@@ -9,12 +9,21 @@ def formatTableDivider(left, middle, right, maxColLengths):
 
     return tableHead + right +"\n"
 
-def tableContent(row, maxColLengths):
+def tableContent(row, maxColLengths, centered):
     tableRow = ""
     for index, cell in enumerate(row):
         tableRow += "│ "
-        tableRow += str(cell)
-        tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
+        if centered:
+            padding = ((maxColLengths[index]-len(str(cell))+1)/2)
+            leftPadding = int(padding)
+            rightPadding = leftPadding if padding == leftPadding else leftPadding + 1
+
+            tableRow += " "*leftPadding
+            tableRow += str(cell)
+            tableRow += " "*rightPadding
+        else:
+            tableRow += str(cell)
+            tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
     return tableRow + "│\n"
     
 
@@ -52,17 +61,15 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     
     # Add labels
     if labels is not None:
-        table += tableContent(labels, maxColLengths)
+        table += tableContent(labels, maxColLengths, centered)
 
-    table += formatTableDivider("├","┼","┤",maxColLengths)
+        table += formatTableDivider("├","┼","┤",maxColLengths)
 
     # Main area of table
     for row in rows:
-        table += tableContent(row, maxColLengths)
-        
+        table += tableContent(row, maxColLengths, centered)
+
     # Bottom of table
     table += formatTableDivider("└","┴","┘",maxColLengths)
 
-    print(table)
-
-make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]],["Fruit", "Tastiness"],True)
+    return table

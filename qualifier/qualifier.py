@@ -40,7 +40,6 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     """
     ...
 
-
     # Get max lengths of columns
     rowLengths = [[len(stringify(cell)) for cell in row] for row in rows]
     columns = len(rowLengths[0])
@@ -75,7 +74,5 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
 
     # Bottom of table
     table += formatTableDivider("└","┴","┘",maxColLengths)
-    print(table)
-    return table
 
-#make_table([[None, 1, 2.5, None, 32j, '123']],[3, None, 12, "A", 12.6, 12j])
+    return table

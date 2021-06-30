@@ -11,6 +11,18 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     """
     ...
     table = ""
+
+    # Get max lengths of columns
+    rowLengths = [[len(str(cell)) for cell in row] for row in rows]
+    columns = len(rowLengths[0])
+    colLengths = []
+    for i in range(0,columns):
+        colLengths.append([])
+        for row in rowLengths:
+            colLengths[i].append(row[i])
+    maxColLengths = [max(length) for length in colLengths]
+    print(maxColLengths)
+
     for row in rows:
         tableRow = ""
         for cell in row:

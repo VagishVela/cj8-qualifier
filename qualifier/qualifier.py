@@ -10,7 +10,6 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     :return: A table representing the rows passed in.
     """
     ...
-    table = ""
 
     # Get max lengths of columns
     rowLengths = [[len(str(cell)) for cell in row] for row in rows]
@@ -21,13 +20,14 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
         for row in rowLengths:
             colLengths[i].append(row[i])
     maxColLengths = [max(length) for length in colLengths]
-    print(maxColLengths)
 
+    table = ""
     for row in rows:
         tableRow = ""
-        for cell in row:
+        for index, cell in enumerate(row):
             tableRow += "| "
             tableRow += str(cell)
+            tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
         tableRow += "|\n"
         table += tableRow
     print(table)

@@ -1,5 +1,13 @@
 from typing import Any, List, Optional
 
+def formatTableDivider(left, middle, right, maxColLengths):
+    tableHead = left
+    for index, maxColLength in enumerate(maxColLengths):
+        tableHead += "─"*(maxColLength+2)
+        if index < len(maxColLengths)-1:
+            tableHead += middle
+
+    return tableHead + right +"\n"
 
 def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, centered: bool = False) -> str:
     """
@@ -24,13 +32,19 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     table = ""
 
     # Top of table
-    tableHead = "┌"
-    for index, maxColLength in enumerate(maxColLengths):
-        tableHead += "─"*(maxColLength+2)
-        if index < len(maxColLengths)-1:
-            tableHead += "┬"
+    table += formatTableDivider("┌","┬","┐",maxColLengths)
+    
+    # Add labels
+    if labels is not None:
+        tableLabel = ""
+        for index, label in enumerate(labels):
+            tableLabel += "│ "
+            tableLabel += str(label)
+            tableLabel += " "*(maxColLengths[index]-len(str(label))+1)
+        tableLabel += "│\n"
+        table += tableLabel
 
-    table += tableHead + "┐\n"
+        table += formatTableDivider("├","┼","┤",maxColLengths)
 
     # Main area of table
     for row in rows:
@@ -43,14 +57,8 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
         table += tableRow
 
     # Bottom of table
-    tableBottom = "└"
-    for index, maxColLength in enumerate(maxColLengths):
-        tableBottom += "─"*(maxColLength+2)
-        if index < len(maxColLengths)-1:
-            tableBottom += "┴"
-
-    table += tableBottom + "┘\n"
+    table += formatTableDivider("└","┴","┘",maxColLengths)
 
     print(table)
 
-make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]])
+make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]],["Fruit", "Tastiness"])

@@ -10,3 +10,14 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     :return: A table representing the rows passed in.
     """
     ...
+    table = ""
+    for row in rows:
+        tableRow = ""
+        for cell in row:
+            tableRow += "| "
+            tableRow += str(cell)
+        tableRow += "|\n"
+        table += tableRow
+    print(table)
+
+make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]])

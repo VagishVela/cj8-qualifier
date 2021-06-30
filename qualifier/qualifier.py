@@ -22,6 +22,15 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     maxColLengths = [max(length) for length in colLengths]
 
     table = ""
+
+    # Top of table
+    tableHead = "-"
+    for maxColLength in maxColLengths:
+        tableHead += "-"*(maxColLength+2)
+
+    table += tableHead + "-\n"
+
+    # Main area of table
     for row in rows:
         tableRow = ""
         for index, cell in enumerate(row):

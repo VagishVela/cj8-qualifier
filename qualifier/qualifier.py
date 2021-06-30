@@ -1,5 +1,11 @@
 from typing import Any, List, Optional
 
+def preProcessNone(rows, labels):
+    for i, row in enumerate(rows):
+        rows[i] = ['None' if cell is None else cell for cell in row]
+    labels = ['None' if label is None else label for label in labels]
+    return rows, labels
+
 def formatTableDivider(left, middle, right, maxColLengths):
     tableHead = left
     for index, maxColLength in enumerate(maxColLengths):
@@ -37,6 +43,8 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     """
     ...
 
+    rows, labels = preProcessNone(rows, labels)
+
     # Get max lengths of columns
     rowLengths = [[len(str(cell)) for cell in row] for row in rows]
     columns = len(rowLengths[0])
@@ -71,5 +79,7 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
 
     # Bottom of table
     table += formatTableDivider("└","┴","┘",maxColLengths)
-
+    print(table)
     return table
+
+make_table([[None, 1, 2.5, None, 32j, '123']],[3, None, 12, "A", 12.6, 12j])

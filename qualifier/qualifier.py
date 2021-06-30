@@ -75,5 +75,4 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     # Bottom of table
     table += formatTableDivider("└","┴","┘",maxColLengths)
 
-    print(table)
     return table

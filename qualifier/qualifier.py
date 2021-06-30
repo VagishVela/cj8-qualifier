@@ -1,10 +1,7 @@
 from typing import Any, List, Optional
 
-def preProcessNone(rows, labels):
-    for i, row in enumerate(rows):
-        rows[i] = ['None' if cell is None else cell for cell in row]
-    labels = ['None' if label is None else label for label in labels]
-    return rows, labels
+def stringify(cell):
+    return str(cell)
 
 def formatTableDivider(left, middle, right, maxColLengths):
     tableHead = left
@@ -20,16 +17,16 @@ def tableContent(row, maxColLengths, centered):
     for index, cell in enumerate(row):
         tableRow += "│ "
         if centered:
-            padding = ((maxColLengths[index]-len(str(cell))+1)/2)
+            padding = ((maxColLengths[index]-len(stringify(cell))+1)/2)
             leftPadding = int(padding)
             rightPadding = leftPadding if padding == leftPadding else leftPadding + 1
 
             tableRow += " "*leftPadding
-            tableRow += str(cell)
+            tableRow += stringify(cell)
             tableRow += " "*rightPadding
         else:
-            tableRow += str(cell)
-            tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
+            tableRow += stringify(cell)
+            tableRow += " "*(maxColLengths[index]-len(stringify(cell))+1)
     return tableRow + "│\n"
     
 
@@ -43,10 +40,9 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     """
     ...
 
-    rows, labels = preProcessNone(rows, labels)
 
     # Get max lengths of columns
-    rowLengths = [[len(str(cell)) for cell in row] for row in rows]
+    rowLengths = [[len(stringify(cell)) for cell in row] for row in rows]
     columns = len(rowLengths[0])
     colLengths = []
     for i in range(0,columns):
@@ -57,9 +53,9 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
 
     if labels is not None:
         for index, maxColLength in enumerate(maxColLengths):
-            labelLen = str(labels[index])
-            if len(labelLen) > maxColLength:
-                maxColLengths[index] = len(labelLen)
+            label = stringify(labels[index])
+            if len(label) > maxColLength:
+                maxColLengths[index] = len(label)
 
     # Setup table
     table = ""
@@ -82,4 +78,4 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     print(table)
     return table
 
-make_table([[None, 1, 2.5, None, 32j, '123']],[3, None, 12, "A", 12.6, 12j])
+#make_table([[None, 1, 2.5, None, 32j, '123']],[3, None, 12, "A", 12.6, 12j])

@@ -41,8 +41,16 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
             tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
         tableRow += "│\n"
         table += tableRow
+
+    # Bottom of table
+    tableBottom = "└"
+    for index, maxColLength in enumerate(maxColLengths):
+        tableBottom += "─"*(maxColLength+2)
+        if index < len(maxColLengths)-1:
+            tableBottom += "┴"
+
+    table += tableBottom + "┘\n"
+
     print(table)
-
-
 
 make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]])

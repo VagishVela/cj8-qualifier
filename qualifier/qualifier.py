@@ -9,6 +9,15 @@ def formatTableDivider(left, middle, right, maxColLengths):
 
     return tableHead + right +"\n"
 
+def tableContent(row, maxColLengths):
+    tableRow = ""
+    for index, cell in enumerate(row):
+        tableRow += "│ "
+        tableRow += str(cell)
+        tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
+    return tableRow + "│\n"
+    
+
 def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, centered: bool = False) -> str:
     """
     :param rows: 2D list containing objects that have a single-line representation (via `str`).
@@ -43,29 +52,17 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     
     # Add labels
     if labels is not None:
-        tableLabel = ""
-        for index, label in enumerate(labels):
-            tableLabel += "│ "
-            tableLabel += str(label)
-            tableLabel += " "*(maxColLengths[index]-len(str(label))+1)
-        tableLabel += "│\n"
-        table += tableLabel
+        table += tableContent(labels, maxColLengths)
 
-        table += formatTableDivider("├","┼","┤",maxColLengths)
+    table += formatTableDivider("├","┼","┤",maxColLengths)
 
     # Main area of table
     for row in rows:
-        tableRow = ""
-        for index, cell in enumerate(row):
-            tableRow += "│ "
-            tableRow += str(cell)
-            tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
-        tableRow += "│\n"
-        table += tableRow
-
+        table += tableContent(row, maxColLengths)
+        
     # Bottom of table
     table += formatTableDivider("└","┴","┘",maxColLengths)
 
     print(table)
 
-make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]],["Fruit", "Tastiness"])
+make_table([['Apple', 5], ['Banana', 3], ['Cherry', 7], ['Kiwi', 4], ['Strawberry', 6]],["Fruit", "Tastiness"],True)

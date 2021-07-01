@@ -4,8 +4,8 @@ from typing import Any, List, Optional
 def formatTableDivider(left, middle, right, maxColLengths):
     tableHead = left
     for index, maxColLength in enumerate(maxColLengths):
-        tableHead += "─"*(maxColLength+2)
-        if index < len(maxColLengths)-1:
+        tableHead += "─"*(maxColLength + 2)
+        if index < len(maxColLengths) - 1:
             tableHead += middle
 
     return tableHead + right + "\n"
@@ -16,7 +16,7 @@ def tableContent(row, maxColLengths, centered):
     for index, cell in enumerate(row):
         tableRow += "│ "
         if centered:
-            padding = ((maxColLengths[index]-len(str(cell)))/2)
+            padding = ((maxColLengths[index] - len(str(cell))) / 2)
             leftPadding = int(padding)
             rightPadding = leftPadding + \
                 1 if padding == float(leftPadding) else leftPadding + 2
@@ -26,7 +26,7 @@ def tableContent(row, maxColLengths, centered):
             tableRow += " "*rightPadding
         else:
             tableRow += str(cell)
-            tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
+            tableRow += " "*(maxColLengths[index] - len(str(cell))+  1)
     return tableRow + "│\n"
 
 

@@ -1,8 +1,5 @@
 from typing import Any, List, Optional
 
-def stringify(cell):
-    return str(cell)
-
 def formatTableDivider(left, middle, right, maxColLengths):
     tableHead = left
     for index, maxColLength in enumerate(maxColLengths):
@@ -17,16 +14,16 @@ def tableContent(row, maxColLengths, centered):
     for index, cell in enumerate(row):
         tableRow += "│ "
         if centered:
-            padding = ((maxColLengths[index]-len(stringify(cell)))/2)
+            padding = ((maxColLengths[index]-len(str(cell)))/2)
             leftPadding = int(padding)
             rightPadding = leftPadding + 1 if padding == float(leftPadding) else leftPadding + 2
 
             tableRow += " "*leftPadding
-            tableRow += stringify(cell)
+            tableRow += str(cell)
             tableRow += " "*rightPadding
         else:
-            tableRow += stringify(cell)
-            tableRow += " "*(maxColLengths[index]-len(stringify(cell))+1)
+            tableRow += str(cell)
+            tableRow += " "*(maxColLengths[index]-len(str(cell))+1)
     return tableRow + "│\n"
     
 
@@ -41,7 +38,7 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     ...
 
     # Get max lengths of columns
-    rowLengths = [[len(stringify(cell)) for cell in row] for row in rows]
+    rowLengths = [[len(str(cell)) for cell in row] for row in rows]
     columns = len(rowLengths[0])
     colLengths = []
     for i in range(0,columns):
@@ -52,7 +49,7 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
 
     if labels is not None:
         for index, maxColLength in enumerate(maxColLengths):
-            label = stringify(labels[index])
+            label = str(labels[index])
             if len(label) > maxColLength:
                 maxColLengths[index] = len(label)
 
